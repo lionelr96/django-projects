@@ -1,7 +1,7 @@
-"""mysite URL Configuration
+"""samples URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.1/topics/http/urls/
+    https://docs.djangoproject.com/en/3.0/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -20,47 +20,39 @@ from django.conf import settings
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from django.views.static import serve
-from django.views.generic.base import TemplateView
 
 urlpatterns = [
-    path('', include('home.urls')),
-    path('polls/', include('polls.urls')),
-    path('admin/', admin.site.urls),
-    path('hello/', include('hello.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('autos/', include('autos.urls')),
-    path('cats/', include('cats.urls')),
-    path('stars/', include('stars.urls')),
-    path('wizards/', include('wizards.urls')),
-    url(r'^oauth/', include('social_django.urls', namespace='social')),
-    # path('', TemplateView.as_view(template_name='home/main.html')),
-    
+    path('', include('home.urls')),  # Change to ads.urls
+    path('admin/', admin.site.urls),  # Keep
+    path('accounts/', include('django.contrib.auth.urls')),  # Keep
+    url(r'^oauth/', include('social_django.urls', namespace='social')),  # Keep
+
     # Sample applications
-    path('hello/', include('hello.urls')),
-    path('users/', include('users.urls')),
-    path('tracks/', include('tracks.urls')),
-    path('views/', include('views.urls')),
-    path('route/', include('route.urls', namespace='nsroute')),
-    path('tmpl/', include('tmpl.urls')),
-    path('gview/', include('gview.urls')),
-    path('session/', include('session.urls')),
-    path('authz/', include('authz.urls')),
-    path('getpost/', include('getpost.urls')),
-    path('form/', include('form.urls')),
-    path('crispy/', include('crispy.urls')),
-    path('myarts/', include('myarts.urls')),
-    path('menu/', include('menu.urls')),
-    path('forums/', include('forums.urls')),
-    path('pics/', include('pics.urls')),
-    path('favs/', include('favs.urls')),
-    path('favsql/', include('favsql.urls')),
-    path('rest/', include('rest.urls')),
-    path('autos/', include('autos.urls')),
-    path('usermodel/', include('usermodel.urls')),
-    path('chat/', include('chat.urls')),
-    path('util/', include('util.urls')),
-    path('well/', include('well.urls')),
-    path('tagme/', include('tagme.urls')),
+    # path('hello/', include('hello.urls')),
+    # path('users/', include('users.urls')),
+    # path('tracks/', include('tracks.urls')),
+    # path('views/', include('views.urls')),
+    # path('route/', include('route.urls', namespace='nsroute')),
+    # path('tmpl/', include('tmpl.urls')),
+    # path('gview/', include('gview.urls')),
+    # path('session/', include('session.urls')),
+    # path('authz/', include('authz.urls')),
+    # path('getpost/', include('getpost.urls')),
+    # path('form/', include('form.urls')),
+    # path('crispy/', include('crispy.urls')),
+    # path('myarts/', include('myarts.urls')),
+    # path('menu/', include('menu.urls')),
+    # path('forums/', include('forums.urls')),
+    # path('pics/', include('pics.urls')),
+    # path('favs/', include('favs.urls')),
+    # path('favsql/', include('favsql.urls')),
+    # path('rest/', include('rest.urls')),
+    # path('autos/', include('autos.urls')),
+    # path('usermodel/', include('usermodel.urls')),
+    # path('chat/', include('chat.urls')),
+    # path('util/', include('util.urls')),
+    # path('well/', include('well.urls')),
+    # path('tagme/', include('tagme.urls')),
 ]
 
 # Serve the static HTML
@@ -76,9 +68,9 @@ urlpatterns += [
 # Serve the favicon - Keep for later
 urlpatterns += [
     path('favicon.ico', serve, {
-        'path': 'favicon.ico',
-        'document_root': os.path.join(BASE_DIR, 'home/static'),
-    }
+            'path': 'favicon.ico',
+            'document_root': os.path.join(BASE_DIR, 'home/static'),
+        }
     ),
 ]
 
@@ -87,8 +79,7 @@ try:
     from . import github_settings
     social_login = 'registration/login_social.html'
     urlpatterns.insert(0,
-                       path(
-                           'accounts/login/', auth_views.LoginView.as_view(template_name=social_login))
+                       path('accounts/login/', auth_views.LoginView.as_view(template_name=social_login))
                        )
     print('Using', social_login, 'as the login template')
 except:
