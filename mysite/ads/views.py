@@ -5,7 +5,7 @@ from .owner import OwnerListView, OwnerDetailView, OwnerCreateView, OwnerUpdateV
 class AdListView(OwnerListView):
     model = Ad
     # By convention:
-    # template_name = "myarts/Ad_list.html"
+    # template_name = "ads/ad_list.html"
 
 
 class AdDetailView(OwnerDetailView):
