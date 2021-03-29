@@ -1,5 +1,5 @@
 from django.views import View
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
@@ -16,6 +16,7 @@ class AdListView(OwnerListView):
 
 class AdDetailView(OwnerDetailView):
     model = Ad
+    template_name = "ads/ad_detail.html"
     
     def get(self, request, pk):
         x = Ad.objects.get(id=pk)
@@ -31,8 +32,9 @@ class AdDetailView(OwnerDetailView):
 #     fields = ['title', 'text', 'price']
 
 class AdCreateView(LoginRequiredMixin, View):
-    template_name = 'ads/form.html'
+    template_name = 'ads/ad_form.html'
     success_url = reverse_lazy('ads:all')
+    fields = ['title', 'text', 'price']
 
     def get(self, request, pk=None):
         form = CreateForm()
@@ -58,8 +60,9 @@ class AdCreateView(LoginRequiredMixin, View):
 #     fields = ['title', 'text', 'price']
 
 class AdUpdateView(LoginRequiredMixin, View):
-    template_name = 'ads/form.html'
+    template_name = 'ads/ad_form.html'
     success_url = reverse_lazy('ads:all')
+    fields = ['title', 'text', 'price']
 
     def get(self, request, pk):
         ad = get_object_or_404(Ad, id=pk, owner=self.request.user)
@@ -92,3 +95,17 @@ def stream_file(request, pk):
     response['Content-Length'] = len(ad.picture)
     response.write(ad.picture)
     return response
+
+
+class CommentCreateView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        f = get_object_or_404(Ad, id=pk)
+        comment = Comment(
+            text=request.POST['comment'], owner=request.user, ad=f)
+        comment.save()
+        return redirect(reverse('ads:ad_detail', args=[pk]))
+
+
+class CommentDeleteView(OwnerDeleteView):
+    model = Comment
+    template_name = "ads/ad_comment_delete.html"
