@@ -3,9 +3,9 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Ad
+from .models import Ad, Comment
 from .owner import OwnerListView, OwnerDetailView, OwnerCreateView, OwnerUpdateView, OwnerDeleteView
-from .forms import CreateForm
+from .forms import CreateForm, CommentForm
 
 
 class AdListView(OwnerListView):
@@ -16,6 +16,14 @@ class AdListView(OwnerListView):
 
 class AdDetailView(OwnerDetailView):
     model = Ad
+    
+    def get(self, request, pk):
+        x = Ad.objects.get(id=pk)
+        comments = Comment.objects.filter(ad=x).order_by('-updated_at')
+        comment_form = CommentForm()
+        context = {'ad': x, 'comments': comments,
+                   'comment_form': comment_form}
+        return render(request, self.template_name, context)
 
 
 # class AdCreateView(OwnerCreateView):
