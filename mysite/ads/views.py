@@ -14,24 +14,24 @@ from .forms import CreateForm, CommentForm
 class AdListView(OwnerListView):
     model = Ad
     # By convention:
-    # template_name = "ads/ad_list.html"
-    
+    template_name = "ads/ad_list.html"
+
     def get(self, request):
-        thing_list = Ad.objects.all()
-        favorites = list()
+        ad_list = Ad.objects.all()
+        favorites = []
         if request.user.is_authenticated:
             # rows = [{'id': 2}, {'id': 4} ... ]  (A list of rows)
-            rows = request.user.favorite_things.values('id')
+            rows = request.user.favorite_ads.values('id')
             # favorites = [2, 4, ...] using list comprehension
             favorites = [row['id'] for row in rows]
-        ctx = {'thing_list': thing_list, 'favorites': favorites}
+        ctx = {'ad_list': ad_list, 'favorites': favorites}
         return render(request, self.template_name, ctx)
 
 
 class AdDetailView(OwnerDetailView):
     model = Ad
     template_name = "ads/ad_detail.html"
-    
+
     def get(self, request, pk):
         x = Ad.objects.get(id=pk)
         comments = Comment.objects.filter(ad=x).order_by('-updated_at')
