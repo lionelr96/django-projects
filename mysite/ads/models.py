@@ -24,6 +24,9 @@ class Ad(models.Model):
     # Favorites
     favorites = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                        through='Fav', related_name='favorite_ads')
+    
+    # https://django-taggit.readthedocs.io/en/latest/api.html#TaggableManager
+    tags = TaggableManager(blank=True)
 
     # Shows up in the admin list
     def __str__(self):
