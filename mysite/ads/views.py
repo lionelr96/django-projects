@@ -88,6 +88,14 @@ class AdCreateView(LoginRequiredMixin, View):
         pic = form.save(commit=False)
         pic.owner = self.request.user
         pic.save()
+        
+        # Adjust the model owner before saving
+        inst = form.save(commit=False)
+        inst.owner = self.request.user
+        inst.save()
+
+        # https://django-taggit.readthedocs.io/en/latest/forms.html#commit-false
+        form.save_m2m()    # Add this
         return redirect(self.success_url)
 
 
@@ -116,6 +124,14 @@ class AdUpdateView(LoginRequiredMixin, View):
 
         ad = form.save(commit=False)
         ad.save()
+        
+        # Adjust the model owner before saving
+        inst = form.save(commit=False)
+        inst.owner = self.request.user
+        inst.save()
+
+        # https://django-taggit.readthedocs.io/en/latest/forms.html#commit-false
+        form.save_m2m()    # Add this
 
         return redirect(self.success_url)
 
