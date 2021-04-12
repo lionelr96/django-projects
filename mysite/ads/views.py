@@ -69,7 +69,7 @@ class AdDetailView(OwnerDetailView):
 class AdCreateView(LoginRequiredMixin, View):
     template_name = 'ads/ad_form.html'
     success_url = reverse_lazy('ads:all')
-    fields = ['title', 'text', 'price']
+    fields = ['title', 'text', 'price', 'tags']
 
     def get(self, request, pk=None):
         form = CreateForm()
@@ -97,7 +97,7 @@ class AdCreateView(LoginRequiredMixin, View):
 class AdUpdateView(LoginRequiredMixin, View):
     template_name = 'ads/ad_form.html'
     success_url = reverse_lazy('ads:all')
-    fields = ['title', 'text', 'price']
+    fields = ['title', 'text', 'price', 'tags']
 
     def get(self, request, pk):
         ad = get_object_or_404(Ad, id=pk, owner=self.request.user)
