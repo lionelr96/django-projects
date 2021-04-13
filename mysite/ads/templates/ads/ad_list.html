@@ -48,7 +48,7 @@
                 {{ post.text }}
             {% else %}
                 {{ post.text|slice:"0:99" }}
-                <a href="{% url 'well:post_detail'  post.id %}">...</a>
+                <a href="{% url 'ads:post_detail'  post.id %}">...</a>
             {% endif %}
         </div>
         <small>

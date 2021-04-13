@@ -34,7 +34,7 @@ class AdListView(OwnerListView):
             ad_list = Ad.objects.filter(
                 query).select_related().order_by('-updated_at')[:10]
         else:
-            objects = Ad.objects.all().order_by('-updated_at')[:10]
+            ad_list = Ad.objects.all().order_by('-updated_at')[:10]
         # Augment the post_list
         for ad in ad_list:
             ad.natural_updated = naturaltime(ad.updated_at)
